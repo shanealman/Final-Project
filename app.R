@@ -31,8 +31,6 @@ res1 = GET('https://api.covid19api.com/summary')
 cdf = fromJSON(rawToChar(res1$content))
 res2 = GET('https://api.covid19api.com/total/dayone/country/united-states')
 totalsdf = fromJSON(rawToChar(res2$content))
-res3 = GET('https://api.covid19api.com/dayone/country/united-states/status/confirmed/live')
-livedf = fromJSON(rawToChar(res3$content))
 casedata = merge(cdf$Countries, lat.lon, by.x = 'CountryCode', by.y = 'country')
 world <- 'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json'
 countries <- readOGR(world)
