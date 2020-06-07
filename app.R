@@ -24,7 +24,6 @@ library(shinydashboard)
 library(shinythemes)
 library(shinyjs)
 
-setwd("C:/Users/shane/Documents/R Core/Final Project")
 #Leaflet Plots
 lat.lon = read.csv('countries.csv')
 res1 = GET('https://api.covid19api.com/summary')
