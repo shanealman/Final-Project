@@ -60,13 +60,15 @@ if(length(seq(as.Date("2020-01-22") , Sys.Date(), 1)) == length(worldconfirmed))
 
 totals = cbind(Time, 'Cases' = worldconfirmed)
 totalconfirmed = subset(totalconfirmed, !duplicated(Country.Region))
-main = cbind(Time, Cases = as.numeric(totalconfirmed[1, 5:ncol(totalconfirmed)]), 
-             Country = as.character(totalconfirmed$Country.Region[1]))
+main = cbind(Time, 'Cases' = as.numeric(totalconfirmed[1, 5:ncol(totalconfirmed)]), 
+             'Country' = as.character(totalconfirmed$Country.Region[1]))
+main$Country = as.character(main$Country)
 
 for(i in 2:nrow(totalconfirmed)){
-  df = cbind(Time, Cases = as.numeric(totalconfirmed[i, 5:ncol(totalconfirmed)]), 
-             Country = as.character(totalconfirmed$Country.Region[i]))
-  main = bind_rows(main, df)
+  tempdf = cbind(Time, 'Cases' = as.numeric(totalconfirmed[i, 5:ncol(totalconfirmed)]), 
+             'Country' = as.character(totalconfirmed$Country.Region[i]))
+  tempdf$Country = as.character(tempdf$Country)
+  main = bind_rows(main, tempdf)
 }
 
 p = ggplot(main, aes(x = Time, y = Cases, col = Country, label = Country)) +  geom_label() + 
