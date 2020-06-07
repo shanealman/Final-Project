@@ -81,7 +81,7 @@ p = ggplot(main, aes(x = Time, y = Cases, col = Country, label = Country)) +  ge
 
 animations = animate(p, duration = 15, nframes = 5, fps = 10, height = 400, width = 900)
 
-continents = countrycode(sourcevar = casedata$Country, origin = "country.name", destination = "continent")
+continents = countrycode(sourcevar = casedata$Country[-180], origin = "country.name", destination = "continent")
 casedata2 = cbind(casedata, continents)
 casedata3 = na.omit(casedata2[-173,])
 
