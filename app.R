@@ -34,6 +34,7 @@ totalsdf = fromJSON(rawToChar(res2$content))
 res3 = GET('https://api.covid19api.com/dayone/country/united-states/status/confirmed/live')
 livedf = fromJSON(rawToChar(res3$content))
 casedata = merge(cdf$Countries, lat.lon, by.x = 'CountryCode', by.y = 'country')
+casedata = casedata[-180,]
 world <- 'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json'
 countries <- readOGR(world)
 casedata$codes =  as.character(
@@ -81,7 +82,7 @@ p = ggplot(main, aes(x = Time, y = Cases, col = Country, label = Country)) +  ge
 
 animations = animate(p, duration = 15, nframes = 5, fps = 10, height = 400, width = 900)
 
-continents = countrycode(sourcevar = casedata$Country[-180], origin = "country.name", destination = "continent")
+continents = countrycode(sourcevar = casedata$Country, origin = "country.name", destination = "continent")
 casedata2 = cbind(casedata, continents)
 casedata3 = na.omit(casedata2[-173,])
 
