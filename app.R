@@ -23,6 +23,7 @@ library(shiny)
 library(shinydashboard)
 library(shinythemes)
 library(shinyjs)
+library(ggridges)
 
 #Leaflet Plots
 lat.lon = read.csv('countries.csv')
