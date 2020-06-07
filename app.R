@@ -34,7 +34,6 @@ totalsdf = fromJSON(rawToChar(res2$content))
 res3 = GET('https://api.covid19api.com/dayone/country/united-states/status/confirmed/live')
 livedf = fromJSON(rawToChar(res3$content))
 casedata = merge(cdf$Countries, lat.lon, by.x = 'CountryCode', by.y = 'country')
-casedata = casedata[-180,]
 world <- 'https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json'
 countries <- readOGR(world)
 casedata$codes =  as.character(
@@ -79,8 +78,6 @@ p = ggplot(main, aes(x = Time, y = Cases, col = Country, label = Country)) +  ge
         legend.position='none') + labs(x = '', y='') + 
   scale_color_viridis(discrete = T, option = 'D') + transition_reveal(Time) + 
   view_follow() + coord_cartesian(clip = 'off') + ggtitle("Cases by Country Over Time")
-
-animations = animate(p, duration = 15, nframes = 5, fps = 10, height = 400, width = 900)
 
 continents = countrycode(sourcevar = casedata$Country, origin = "country.name", destination = "continent")
 casedata2 = cbind(casedata, continents)
@@ -172,13 +169,9 @@ server <- function(input, output, session) {
   })
   
   output$plot1 <- renderImage({
-    outfile <- tempfile(fileext='.gif')
-    
-    anim_save("outfile.gif", animations)
-    
-    list(src = "outfile.gif",
+    list(src = "plot1.gif",
          contentType = 'image/gif'
-    )}, deleteFile = TRUE)
+    )})
   
   output$plot2 <- renderPlot({
     ggplot(totals) + geom_line(aes(Time, Cases, col = 'Reported Cases')) + theme_minimal() + 
