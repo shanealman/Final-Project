@@ -26,8 +26,10 @@ library(shinyjs)
 library(ggridges)
 library(caTools)
 library(animation)
-library(git2r)
-library(drat)
+
+#Downloading gif from plot1 
+download.file("https://raw.githubusercontent.com/shanealman/Final-Project/master/plot1.gif", 
+              paste(getwd(), "/plot1.gif", sep = ''), mode = 'wb')
 
 #Leaflet Plots
 lat.lon = read.csv('countries.csv')
