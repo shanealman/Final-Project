@@ -24,6 +24,8 @@ library(shinydashboard)
 library(shinythemes)
 library(shinyjs)
 library(ggridges)
+library(caTools)
+library(animation)
 
 #Leaflet Plots
 lat.lon = read.csv('countries.csv')
@@ -168,8 +170,9 @@ server <- function(input, output, session) {
   
   output$plot1 <- renderImage({
     list(src = "plot1.gif",
-         contentType = 'image/gif'
-    )})
+         contentType = 'image/gif',
+         alt = "This is alternate text"
+    )}, deleteFile = FALSE)
   
   output$plot2 <- renderPlot({
     ggplot(totals) + geom_line(aes(Time, Cases, col = 'Reported Cases')) + theme_minimal() + 
