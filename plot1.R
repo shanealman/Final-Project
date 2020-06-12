@@ -26,8 +26,12 @@ library(shinyjs)
 library(ggridges)
 library(git2r)
 library(drat)
+library(knitr)
+library(miniUI)
+library(taskscheduleR)
 
 #This is a helper script to generate a gif for our app, Shiny will time out when used with complex animations.
+#This script uses taskscheduleR to run everyday adding a new gif to the github account
 
 hopkinsdata = getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
 totalconfirmed = read.csv(text = hopkinsdata)
