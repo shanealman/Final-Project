@@ -26,6 +26,8 @@ library(shinyjs)
 library(ggridges)
 library(caTools)
 library(animation)
+library(git2r)
+library(drat)
 
 #Leaflet Plots
 lat.lon = read.csv('countries.csv')
@@ -52,10 +54,12 @@ totalconfirmed = read.csv(text = hopkinsdata)
 worldconfirmed = read.csv(text = hopkinsdata)
 worldconfirmed = colSums(worldconfirmed[,-c(1:4)])
 
-if(length(seq(as.Date("2020-01-22") , Sys.Date(), 1)) == length(worldconfirmed)){
-  Time = data.frame('Time' = seq(as.Date("2020-01-22") , Sys.Date(), 1))
+if(length(seq(as.Date("2020-01-22") , as_date(with_tz(Sys.time(), tzone = "America/Los_Angeles")), 1)) == length(worldconfirmed)){
+  Time = data.frame('Time' = seq(as_date("2020-01-22") , 
+                                 as_date(with_tz(Sys.time(), tzone = "America/Los_Angeles")), 1))
 } else {
-  Time = data.frame('Time' = seq(as.Date("2020-01-22") , Sys.Date()-1, 1))
+  Time = data.frame('Time' = seq(as.Date("2020-01-22") , 
+                                 as_date(with_tz(Sys.time(), tzone = "America/Los_Angeles"))-1, 1))
 }
 
 totals = cbind(Time, 'Cases' = worldconfirmed)
@@ -66,18 +70,12 @@ main$Country = as.character(main$Country)
 
 for(i in 2:nrow(totalconfirmed)){
   tempdf = cbind(Time, 'Cases' = as.numeric(totalconfirmed[i, 5:ncol(totalconfirmed)]), 
-             'Country' = as.character(totalconfirmed$Country.Region[i]))
+                 'Country' = as.character(totalconfirmed$Country.Region[i]))
   tempdf$Country = as.character(tempdf$Country)
   main = bind_rows(main, tempdf)
 }
 
-p = ggplot(main, aes(x = Time, y = Cases, col = Country, label = Country)) +  geom_label() + 
-  geom_line(size = 1.05, alpha = 0.7) + 
-  theme_minimal() +
-  theme(text = element_text(size = 13, color = 'black'),
-        legend.position='none') + labs(x = '', y='') + 
-  scale_color_viridis(discrete = T, option = 'D') + transition_reveal(Time) + 
-  view_follow() + coord_cartesian(clip = 'off') + ggtitle("Cases by Country Over Time")
+
 
 continents = countrycode(sourcevar = casedata$Country, origin = "country.name", destination = "continent")
 casedata2 = cbind(casedata, continents)
