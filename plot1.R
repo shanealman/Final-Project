@@ -24,6 +24,10 @@ library(shinydashboard)
 library(shinythemes)
 library(shinyjs)
 library(ggridges)
+library(git2r)
+library(drat)
+
+#This is a helper script to generate a gif for our app, Shiny will time out when used with complex animations.
 
 hopkinsdata = getURL("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv")
 totalconfirmed = read.csv(text = hopkinsdata)
@@ -60,3 +64,50 @@ p = ggplot(main, aes(x = Time, y = Cases, col = Country, label = Country)) +  ge
 animations = animate(p, duration = 15, nframes = 5, fps = 10, height = 400, width = 900)
 
 anim_save("plot1.gif", animations, "C:/Users/shane/Desktop/Spring 2020/STAT 431/Final-Project")
+
+#The following functions are used to quickly add to github
+
+# Git status.
+gitstatus <- function(dir = getwd()){
+  cmd_list <- list(
+    cmd1 = tolower(substr(dir,1,2)),
+    cmd2 = paste("cd",dir),
+    cmd3 = "git status"
+  )
+  cmd <- paste(unlist(cmd_list),collapse = " & ")
+  shell(cmd)
+}
+
+# Git add.
+gitadd <- function(dir = getwd()){
+  cmd_list <- list(
+    cmd1 = tolower(substr(dir,1,2)),
+    cmd2 = paste("cd",dir),
+    cmd3 = "git add --all"
+  )
+  cmd <- paste(unlist(cmd_list),collapse = " & ")
+  shell(cmd)
+}
+
+# Git commit.
+gitcommit <- function(msg = "commit from Rstudio", dir = getwd()){
+  cmd = sprintf("git commit -m\"%s\"",msg)
+  system(cmd)
+}
+
+# Git push.
+gitpush <- function(dir = getwd()){
+  cmd_list <- list(
+    cmd1 = tolower(substr(dir,1,2)),
+    cmd2 = paste("cd",dir),
+    cmd3 = "git push"
+  )
+  cmd <- paste(unlist(cmd_list),collapse = " & ")
+  shell(cmd)
+}
+
+
+gitstatus()
+gitadd()
+gitcommit()
+gitpush()
