@@ -63,7 +63,7 @@ p = ggplot(main, aes(x = Time, y = Cases, col = Country, label = Country)) +  ge
 
 animations = animate(p, duration = 15, nframes = 5, fps = 10, height = 400, width = 900)
 
-anim_save("plot1.gif", animations, "C:/Users/shane/Desktop/Spring 2020/STAT 431/Final-Project")
+anim_save("plot1.gif", animations, getwd())
 
 #The following functions are used to quickly add to github
 
